@@ -18,3 +18,8 @@ graph.addPath(0, 1, 4);
 graph.addPath(1, 2, 6);
 graph.addPath(2, 5, 3);
 graph.calculatePath();
+
+
+### TODO
+- [ ] Optimizations
+- [ ] Add tests
