@@ -1,5 +1,6 @@
 #include "graph.h"
 
+#include <algorithm>
 #include <iostream>
 /*!
  * \brief Graph::Graph constructs a Graph with a specified \p start and \p finish vertex
@@ -35,6 +36,12 @@ void Graph::addPath(Id from, Id to, unsigned cost)
  */
 void Graph::calculatePath()
 {
+    // reset state
+    for (auto &[id, cost] : _vertexCost)
+        cost = _maxCost;
+    _previous.clear();
+    _path.clear();
+
     _vertexCost[_start] = 0;
 
     Id currentVertex{ _start };
@@ -46,8 +53,31 @@ void Graph::calculatePath()
                 calculateVertexCost(path.to());
         }
         currentVertex = findNextVertex(currentVertex);
-        _path.push_back(currentVertex);
+        if (currentVertex == _start || _vertexCost[currentVertex] == _maxCost)
+            break;
     }
+
+    if (_vertexCost[_finish] == _maxCost)
+    {
+        std::cout << "No path from " << _start << " to " << _finish << "\n";
+        return;
+    }
+
+    // reconstruct path from finish to start using predecessors
+    Id v = _finish;
+    while (true)
+    {
+        _path.push_back(v);
+        if (v == _start)
+            break;
+
+        auto it = _previous.find(v);
+        if (it == _previous.end())
+            break;
+        v = it->second;
+    }
+
+    std::reverse(_path.begin(), _path.end());
 
     printPath();
 }
@@ -87,7 +117,12 @@ void Graph::calculateVertexCost(Id id)
         if (_vertexCost[path.from()] == _maxCost)
             calculateVertexCost(path.from());
 
-        _vertexCost[id] = std::min(_vertexCost[path.from()] + cost, _vertexCost[id]);
+        const auto newCost = _vertexCost[path.from()] + cost;
+        if (newCost < _vertexCost[id])
+        {
+            _vertexCost[id] = newCost;
+            _previous[id] = path.from();
+        }
     }
 }
 

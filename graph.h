@@ -29,5 +29,6 @@ private:
     Id _finish;
     std::unordered_map<Path, unsigned> _pathCost;
     std::unordered_map<Id, unsigned> _vertexCost;
+    std::unordered_map<Id, Id> _previous;
     std::vector<Id> _path;
 };
