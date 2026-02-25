@@ -102,6 +102,31 @@ void test5()
     graph.calculatePath();
 }
 
+void test6()
+{
+    Graph graph(0, 12);
+    graph.addPath(0, 1, 2);
+    graph.addPath(0, 2, 5);
+    graph.addPath(1, 3, 4);
+    graph.addPath(2, 3, 1);
+    graph.addPath(1, 4, 7);
+    graph.addPath(3, 4, 3);
+    graph.addPath(4, 5, 1);
+    graph.addPath(2, 6, 2);
+    graph.addPath(6, 7, 3);
+    graph.addPath(7, 8, 2);
+    graph.addPath(5, 8, 2);
+    graph.addPath(8, 9, 1);
+    graph.addPath(9, 10, 4);
+    graph.addPath(10, 11, 3);
+    graph.addPath(11, 12, 1);
+    graph.addPath(3, 9, 10);
+    graph.addPath(2, 10, 6);
+    graph.addPath(6, 11, 8);
+    graph.addPath(0, 12, 30);
+    graph.calculatePath();
+}
+
 int main()
 {
     test1();
@@ -109,6 +134,7 @@ int main()
     test3();
     test4();
     test5();
+    test6();
 
     return 0;
 }
